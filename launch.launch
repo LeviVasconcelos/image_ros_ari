@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<launch>
+  <include file="$(find ros_openpose)/launch/run.launch">
+	  <arg name="rviz" value="false"/>
+	  <arg name="camera" value="nodepth" />
+	  <arg name="skeleton" value="false" />
+	  <arg name="pointcloud" value="false" />
+	  <arg name="skeleton_hands" value="false" />
+  </include>
+  <node pkg="face_mask" type="rosnode_facemask.py" name="face_mask"/>
+  <node pkg="image_transport" type="republish" name="img_transport" args="compressed in:=output/face_mask raw out:=output/image"/>
+  <node pkg="rosbag" type="play" name="player" output="screen" args="--clock /ari_public_ws/head3_1280x960x20fps.bag" />
+  <!--node name="extract" pkg="image_view" type="extract_images" respawn="false" required="true" output="screen" cwd="ROS_HOME">
+	  <remap from="image" to="/output/image"/>
+  </node-->
+</launch>
